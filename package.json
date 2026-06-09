@@ -1,0 +1,17 @@
+{
+  "name": "1password-safe-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local MCP server that lists 1Password item names and copies selected fields to the macOS clipboard without returning secrets.",
+  "bin": {
+    "1password-safe-mcp": "./bin/1password-safe-mcp"
+  },
+  "scripts": {
+    "install:bun": "./scripts/install-bun.sh",
+    "smoke": "./vendor/bun/bun ./scripts/mcp-call.mjs tools/list '{}'"
+  },
+  "dependencies": {
+    "@1password/sdk": "0.4.0"
+  }
+}

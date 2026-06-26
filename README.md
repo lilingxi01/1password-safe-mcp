@@ -64,7 +64,50 @@ You can also provide an `op://...` reference:
 }
 ```
 
-## Codex Config
+## Codex Plugin
+
+This repo is also a Codex plugin. The plugin manifest lives at `.codex-plugin/plugin.json`, and its bundled MCP config lives at `.mcp.json`.
+
+For repo-local installation, add this repository as a local Codex marketplace root:
+
+```sh
+codex plugin marketplace add /Users/lingxi/repos/1password-safe-mcp
+codex plugin add 1password-safe-mcp@1password-safe-mcp-local
+```
+
+Restart Codex or start a new thread after installing. The plugin starts the MCP server through:
+
+```json
+{
+  "mcpServers": {
+    "1password-safe": {
+      "command": "./bin/1password-safe-mcp"
+    }
+  }
+}
+```
+
+## Cursor Plugin
+
+This repo is also a Cursor plugin. The plugin manifest lives at `.cursor-plugin/plugin.json`, and Cursor discovers the plugin MCP server from `mcp.json`.
+
+For local testing, install or import this repository as a local Cursor plugin from the repo root. The bundled MCP server is named `1password-safe` and starts through `./bin/1password-safe-mcp`.
+
+If you want to run the MCP server directly from Cursor project/global MCP config instead of installing the plugin, use this same shape:
+
+```json
+{
+  "mcpServers": {
+    "1password-safe": {
+      "type": "stdio",
+      "command": "/Users/lingxi/repos/1password-safe-mcp/bin/1password-safe-mcp",
+      "envFile": "/Users/lingxi/repos/1password-safe-mcp/.env"
+    }
+  }
+}
+```
+
+## Direct Codex Config
 
 ```toml
 [mcp_servers."1password-safe"]

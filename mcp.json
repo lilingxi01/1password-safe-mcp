@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "1password-safe": {
+      "type": "stdio",
+      "command": "./bin/1password-safe-mcp",
+      "envFile": ".env"
+    }
+  }
+}

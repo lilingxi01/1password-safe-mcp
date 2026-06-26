@@ -1,0 +1,23 @@
+{
+  "name": "1password-safe-mcp",
+  "displayName": "1Password Safe MCP",
+  "version": "0.1.0",
+  "description": "Run the local 1Password Safe MCP server for listing 1Password items and copying selected fields without returning secret values.",
+  "author": {
+    "name": "Local developer"
+  },
+  "keywords": [
+    "1password",
+    "mcp",
+    "secrets",
+    "clipboard"
+  ],
+  "category": "developer-tools",
+  "tags": [
+    "mcp",
+    "security",
+    "1password"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
+}

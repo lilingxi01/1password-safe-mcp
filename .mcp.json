@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "1password-safe": {
+      "command": "./bin/1password-safe-mcp",
+      "startup_timeout_sec": 20,
+      "tool_timeout_sec": 60,
+      "env_vars": [
+        "OP_SERVICE_ACCOUNT_TOKEN",
+        "ONEPASSWORD_SERVICE_ACCOUNT_TOKEN",
+        "1PASSWORD_SERVICE_ACCOUNT_TOKEN"
+      ]
+    }
+  }
+}

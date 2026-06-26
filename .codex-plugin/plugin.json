@@ -1,0 +1,32 @@
+{
+  "name": "1password-safe-mcp",
+  "version": "0.1.0",
+  "description": "Run the local 1Password Safe MCP server for listing 1Password items and copying selected fields without returning secret values.",
+  "author": {
+    "name": "Local developer"
+  },
+  "keywords": [
+    "1password",
+    "mcp",
+    "secrets",
+    "clipboard"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "1Password Safe MCP",
+    "shortDescription": "Safe local 1Password access through MCP.",
+    "longDescription": "Run a local MCP server that lists accessible 1Password vault items, describes fields without values, and copies one selected field to the macOS clipboard without returning the secret to the agent.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use 1Password Safe MCP to find a login.",
+      "Copy a selected 1Password field to the clipboard."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

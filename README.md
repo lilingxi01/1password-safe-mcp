@@ -4,9 +4,9 @@ Local MCP server for a narrow browser-login workflow:
 
 - list accessible 1Password vault item names
 - describe field labels without returning values
-- copy one selected field to the macOS clipboard
+- copy one selected field to the system clipboard (macOS or Linux)
 
-The server uses the pinned official `@1password/sdk` package. `copy_secret` reads the selected value inside the MCP server process, writes it to the macOS clipboard, and returns only metadata.
+The server uses the pinned official `@1password/sdk` package. `copy_secret` reads the selected value inside the MCP server process, writes it to the system clipboard, and returns only metadata.
 
 ## Setup
 
@@ -118,11 +118,20 @@ command = "/Users/lingxi/repos/1password-safe-mcp/bin/1password-safe-mcp"
 
 This project uses Bun for the MCP server because the official 1Password JavaScript SDK can be pinned and locked as a normal dependency. Rust does not buy much for the current shape because there is no native keyboard helper anymore; the only macOS-specific boundary is the pasteboard command.
 
+## Clipboard Support
+
+`copy_secret` writes to the system clipboard using a platform-aware backend:
+
+- **macOS:** built-in `pbcopy` / `pbpaste`.
+- **Linux:** the first available of `wl-clipboard` (`wl-copy`/`wl-paste`, Wayland), `xclip`, or `xsel` (X11). Install one of these, e.g. `apt-get install xclip`.
+
+If no clipboard tool is found on Linux, `copy_secret` returns an error explaining which tools to install.
+
 ## Security Notes
 
 - The service account should be limited to a dedicated automation vault.
 - The `@1password/sdk` dependency is pinned and locked in `bun.lock`.
 - `copy_secret` does not return the secret to the agent.
-- The selected secret still enters the global macOS clipboard and becomes visible to whatever app receives the paste.
-- `copy_secret` uses the macOS pasteboard path and does not require Accessibility.
+- The selected secret still enters the global system clipboard and becomes visible to whatever app receives the paste.
+- `copy_secret` uses the OS clipboard path (macOS pasteboard or a Linux clipboard tool) and does not require Accessibility.
 - There is no AppleScript, keyboard-event helper, or `.app` bundle.

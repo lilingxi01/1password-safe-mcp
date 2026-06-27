@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import { writeClipboardValue } from "../src/clipboard.mjs";
 
 const delaySeconds = Math.max(0, Number.parseInt(process.argv[2] ?? "0", 10));
 
@@ -11,8 +11,8 @@ process.stdin.on("data", (chunk) => {
 await new Promise((resolve) => process.stdin.on("end", resolve));
 await new Promise((resolve) => setTimeout(resolve, delaySeconds * 1000));
 
-const child = spawn("/usr/bin/pbcopy", [], {
-  stdio: ["pipe", "ignore", "ignore"],
-});
-child.stdin.end(previous);
-await new Promise((resolve) => child.on("close", resolve));
+try {
+  await writeClipboardValue(previous);
+} catch {
+  // Best-effort restore; ignore failures (e.g. no clipboard tool available).
+}

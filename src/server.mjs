@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { clipboard } from "./clipboard.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = resolve(__dirname, "..");
@@ -60,7 +61,7 @@ const tools = [
   {
     name: "copy_secret",
     description:
-      "Read one selected 1Password field and copy it to the macOS clipboard. The value is never returned to the agent.",
+      "Read one selected 1Password field and copy it to the system clipboard (macOS or Linux). The value is never returned to the agent.",
     inputSchema: {
       type: "object",
       required: ["field"],
@@ -319,21 +320,14 @@ async function readSelectedSecret(args) {
 }
 
 async function readClipboard() {
-  const result = await run("/usr/bin/pbpaste", [], {
-    env: process.env,
-    rejectOnError: false,
-  });
-  return result.code === 0 ? result.stdout : "";
+  return await clipboard.read();
 }
 
 async function writeClipboard(value) {
-  const result = await run("/usr/bin/pbcopy", [], {
-    input: value,
-    env: process.env,
-    rejectOnError: false,
-  });
-  if (result.code !== 0) {
-    throw rpcError(-32603, result.stderr.trim() || "Failed to write macOS clipboard");
+  try {
+    await clipboard.write(value);
+  } catch (error) {
+    throw rpcError(-32603, errorMessage(error) || "Failed to write clipboard");
   }
 }
 

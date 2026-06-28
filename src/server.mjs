@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readClipboardValue, writeClipboardValue } from "./clipboard.mjs";
+import { clipboard } from "./clipboard.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = resolve(__dirname, "..");
@@ -320,12 +320,12 @@ async function readSelectedSecret(args) {
 }
 
 async function readClipboard() {
-  return await readClipboardValue();
+  return await clipboard.read();
 }
 
 async function writeClipboard(value) {
   try {
-    await writeClipboardValue(value);
+    await clipboard.write(value);
   } catch (error) {
     throw rpcError(-32603, errorMessage(error) || "Failed to write clipboard");
   }
